@@ -7,5 +7,10 @@ response = requests.get(url)
 
 soup = BeautifulSoup(response.text, "lxml")
 
-data = soup.find("div", class_="cheaper-product-name")
-print(data)
+name = soup.find("div", class_="cheaper-product-name").text
+
+price = soup.find(class_="priceVal").text
+
+url_amg = data.find(class_="pictureSlider").get("picture")
+
+print(url_amg)
