@@ -1,16 +1,18 @@
 import requests
 from bs4 import BeautifulSoup
 
-url = "https://tpro.by/products/organayzer_qbrick_system_pro_organizer_200_mfi_red_ultra_hd_orgqpro200fczepg001/"
+url = "https://tpro.by/products/khranenie_i_transportirovka/"
 
 response = requests.get(url)
 
 soup = BeautifulSoup(response.text, "lxml")
 
-name = soup.find("div", class_="cheaper-product-name").text
+data = soup.find_all("div", id="catalogColumn")
+for i in data:
+    name = i.find("a", class_="name").text
+    price = i.find(class_="priceVal").text
+#url_amg = data.find("a", img="src").get
 
-price = soup.find(class_="priceVal").text
+print(name + price)
 
-url_amg = data.find(class_="pictureSlider").get("picture")
-
-print(url_amg)
+#bx_1762928987_20187 > div > div.productTable > div.productColImage > a > img
