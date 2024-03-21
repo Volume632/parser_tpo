@@ -7,12 +7,15 @@ response = requests.get(url)
 
 soup = BeautifulSoup(response.text, "lxml")
 
-data = soup.find_all("div", id="catalogColumn")
-for i in data:
-    name = i.find("a", class_="name").text
-    price = i.find(class_="priceVal").text
-#url_amg = data.find("a", img="src").get
+#data = soup.find("div", id="catalog")
+data = soup.find("div", attrs={"id": "catalog"})
+items = data.find("div", class_="item product sku")
 
-print(name + price)
+#for i in items:
+name = items.find("div" class_="productColText").text
+    #price = i.find.all("a", class_="price").text
+
+print(name)
+    #print(price)
 
 #bx_1762928987_20187 > div > div.productTable > div.productColImage > a > img
