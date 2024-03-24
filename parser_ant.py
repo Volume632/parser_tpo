@@ -9,7 +9,7 @@ headers = {"User-Agent":
 # URL для парсинга
     
 sleep(3)
-url = "https://antamedia.by/elektronika/elektroinstrumenty/perforatory/?page="
+base_url = "https://antamedia.by/elektronika/elektroinstrumenty/perforatory/?page="
 
 def parse_page(url):
     response = requests.get(url, headers=headers)
@@ -18,7 +18,7 @@ def parse_page(url):
     
     # Поиск всех карточек продуктов
     data = soup.find("div", attrs={"class": "row-flex row-price category-page"})
-    items = data.find_all("div", class_="product-layout")
+    items = data.find_all("div", {"class": "product-layout"})
 
     for i in items:
         title = i.find("div", class_="product-name").text.strip()
@@ -56,6 +56,13 @@ def write_to_excel(products):
         workbook.save(filename="products.xlsx")
 
 if __name__ == "__main__":
-    products = parse_page(url)
-    write_to_excel(products)
+    all_products = []
+    
+    
+    for page_num in range(1, 14):
+        url = base_url + str(page_num)
+        products = parse_page(url)
+        all_products.extend(products)
+    write_to_excel(all_products)
+    
     print("Данные успешно сохранены в файле products.xlsx")
